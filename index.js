@@ -7,9 +7,6 @@ const handleCategory = async () => {
         const tab = document.createElement("div");
         tab.innerHTML = `<a id="tabs" onclick="categoryLoad('${category.category_id}')" class="tab ">${category.category}</a> `;
         tabList.appendChild(tab);
-
-        // console.log(data.data);
-
     });
 };
 const categoryLoad = async (categoryId) => {
@@ -21,34 +18,45 @@ const categoryLoad = async (categoryId) => {
         const cardList = document.createElement("div");
         cardList.className = "card";
         const isVerified = video.authors[0]?.verified === true;
+        const postDate = video.others.posted_date;
+        const hr = `${postDate / 3600}`;
+        const hrs = parseInt(hr);
+        const min = `${postDate % 3600 / 60}`;
+        const mins = parseInt(min);
+        const totalTime = `${hrs}hrs ${mins}min ago`;
         cardList.innerHTML = `
                 <div  class="card w-30 bg-base-100 shadow-xl">
                 <figure><img class="w-[100%] h-[200px]" src="${video.thumbnail}"/></figure>
                 <div class="card-actions justify-end">
-                    <p class="bg-black text-white -mt-6 px-3 rounded-lg">${video.duration}</p>
+                    <p class="time-tag bg-black text-white -mt-6 px-3 rounded-lg">${totalTime}</p>
                 </div>
                 <div class="card-body">
                     <div class="flex items-center gap-4">
                         <img class="w-[40px] h-[40px] rounded-full" src="${video.authors[0].profile_picture}">
                         <p class="font-bold text-[20px]">${video.title}</p>
                     </div>
-                    <div class="inline-flex space-x-4 items-center">${video.authors[0].profile_name}${isVerified?`<img class="ml-2 w-[20px] h-[20px]" src="./verified.png">`:""}</div>
+                    <div class="inline-flex space-x-4 items-center">${video.authors[0].profile_name}${isVerified ? `<img class="ml-2 w-[20px] h-[20px]" src="./verified.png">` : ""}</div>
                     <p>${video.others.views} views</p>
                 </div>
                 </div>
             `;
-           
+
 
         cardContainer.appendChild(cardList);
+        if (postDate === "") {
+            const timeTag = cardList.querySelector(".time-tag");
+            timeTag.style.display = "none";
+        }
+
     });
     const checkCategory = "1005";
     const dataCheck = data.data.find(item => item.category_id === checkCategory);
     if (categoryId === checkCategory && !dataCheck) {
         const emptyTab = document.createElement("div");
-        emptyTab.innerHTML=`<div class="flex justify-center items-center h-[700px] ml-[700px] w-[500px]"><div></div>
-        <div class="text-center"><img class="ml-14 mb-4" src="./Icon.png" alt="">
-        <p>Oops!! Sorry, There is no content here</p></div></div>`
-    cardContainer.appendChild(emptyTab);
+        emptyTab.innerHTML = `<div class="flex justify-center items-center h-[700px] ml-[700px] w-[500px]"><div></div>
+        <div class="text-center"><img class="ml-16 mb-4" src="./Icon.png" alt="">
+        <p class="font-bold text-[25px]">Oops!! Sorry, There is no<br> content here</p></div></div>`
+        cardContainer.appendChild(emptyTab);
     }
     console.log(data.data);
 };
