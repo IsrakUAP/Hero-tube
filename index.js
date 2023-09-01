@@ -20,7 +20,7 @@ const categoryLoad = async (categoryId) => {
     data.data.forEach(video => {
         const cardList = document.createElement("div");
         cardList.className = "card";
-
+        const isVerified = video.authors[0]?.verified === true;
         cardList.innerHTML = `
                 <div  class="card w-30 bg-base-100 shadow-xl">
                 <figure><img class="w-[100%] h-[200px]" src="${video.thumbnail}"/></figure>
@@ -32,7 +32,7 @@ const categoryLoad = async (categoryId) => {
                         <img class="w-[40px] h-[40px] rounded-full" src="${video.authors[0].profile_picture}">
                         <p class="font-bold text-[20px]">${video.title}</p>
                     </div>
-                    <p>${video.authors[0].profile_name} <img src="${video.authors[0]?.verified}"></p>
+                    <div class="inline-flex space-x-4 items-center">${video.authors[0].profile_name}${isVerified?`<img class="ml-2 w-[20px] h-[20px]" src="./verified.png">`:""}</div>
                     <p>${video.others.views} views</p>
                 </div>
                 </div>
