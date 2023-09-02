@@ -5,7 +5,7 @@ const handleCategory = async () => {
     const tabList = document.getElementById('tab-list');
     data.data.forEach(category => {
         const tab = document.createElement("div");
-        tab.innerHTML = `<button id="tabs"  onclick="categoryLoad('${category.category_id}')" class="tab hover:bg-red-700 rounded-lg">${category.category}</button> `;
+        tab.innerHTML = `<button id="tabs"  onclick="categoryLoad('${category.category_id}')" class="tab focus:bg-red-600 bg-gray-200 font-bold hover:text-white">${category.category}</button> `;
         tabList.appendChild(tab);
     });
 };
